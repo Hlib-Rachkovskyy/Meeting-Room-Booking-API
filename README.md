@@ -6,7 +6,7 @@ A RESTful API for managing meeting rooms and time-slot bookings, built with ASP.
 
 - [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 
-That's it — the project uses an **InMemory database**, so no database server is needed.
+That's it- the project uses an **InMemory database**, so no database server is needed.
 
 ## Getting Started
 
@@ -70,7 +70,7 @@ dotnet test
 
 ## Authentication
 
-All endpoints require a **JWT Bearer token**. In Swagger UI, click the **Authorize 🔒** button and enter your token.
+All endpoints require a **JWT Bearer token**. In Swagger UI, click the **Authorize** button and enter your token.
 
 The JWT settings are configured in `appsettings.json` under the `Jwt` section:
 
@@ -102,7 +102,7 @@ WebAPI → Application → Domain
 WebAPI → Infrastructure → Application → Domain
 ```
 
-Dependencies only point **inwards** — Domain has zero external references.
+Dependencies only point **inwards**- Domain has zero external references.
 
 ## Example Request Bodies
 
