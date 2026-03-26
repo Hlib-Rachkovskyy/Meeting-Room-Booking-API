@@ -6,6 +6,7 @@ using System.Text;
 using Meeting_Room_Booking_API.Middleware;
 using Meeting_Room_Booking_API.Infrastructure;
 using Meeting_Room_Booking_API.Infrastructure.Seeding;
+using Meeting_Room_Booking_API.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,6 +70,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorization();
+
+// ── Application (Services) ───────────────────────────────────────────────────
+builder.Services.AddApplication();
 
 // ── Infrastructure (EF Core, Repositories) ─────────────────────────────────────
 builder.Services.AddInfrastructure();
