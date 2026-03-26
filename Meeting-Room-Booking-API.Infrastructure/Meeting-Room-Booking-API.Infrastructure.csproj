@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Meeting-Room-Booking-API.Application\Meeting-Room-Booking-API.Application.csproj" />
+    <ProjectReference Include="..\Meeting-Room-Booking-API.Domain\Meeting-Room-Booking-API.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
+    <PackageReference Include="Bogus" Version="35.6.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.*" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.1.*" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.*" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Meeting_Room_Booking_API.Infrastructure</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

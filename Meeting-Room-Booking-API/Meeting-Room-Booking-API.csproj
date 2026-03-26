@@ -5,11 +5,19 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>Meeting_Room_Booking_API</RootNamespace>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.25"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.*" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.25" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.*" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Meeting-Room-Booking-API.Application\Meeting-Room-Booking-API.Application.csproj" />
+      <ProjectReference Include="..\Meeting-Room-Booking-API.Infrastructure\Meeting-Room-Booking-API.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
