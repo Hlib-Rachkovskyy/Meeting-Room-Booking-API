@@ -51,6 +51,15 @@ dotnet test
 
 ## API Endpoints
 
+### Authentication
+
+| Method | Endpoint | Auth required | Description |
+|--------|----------|---------------|-------------|
+| `POST` | `/api/auth/register` | ❌ | Register a new user. Returns access token + sets refresh cookie. |
+| `POST` | `/api/auth/login` | ❌ | Login. Returns access token + sets refresh cookie. |
+| `POST` | `/api/auth/refresh` | ❌ (uses cookie) | Rotate refresh token. Returns new access token + new refresh cookie. |
+| `POST` | `/api/auth/logout` | ✅ Bearer | Clears the refresh token cookie. |
+
 ### Rooms
 
 | Method | Endpoint | Description |
@@ -70,19 +79,49 @@ dotnet test
 
 ## Authentication
 
-All endpoints require a **JWT Bearer token**. In Swagger UI, click the **Authorize** button and enter your token.
+The API uses **JWT Bearer token** authentication with **refresh token rotation**.
 
-The JWT settings are configured in `appsettings.json` under the `Jwt` section:
+### Token Lifecycle
+
+| Token | Lifetime | Transport |
+|-------|----------|-----------|
+| Access Token | **15 minutes** | JSON response body — send as `Authorization: Bearer <token>` |
+| Refresh Token | **7 days** | `HttpOnly`, `Secure` cookie — browser sends it automatically |
+
+### Flow
+
+1. **Login / Register** → receive an `accessToken` in the body + a `refreshToken` cookie (set automatically).
+2. Include the access token in all protected requests: `Authorization: Bearer <accessToken>`.
+3. When the access token expires (15 min), call `POST /api/auth/refresh` — no body needed, the browser sends the cookie automatically. You'll receive a new access token and a rotated refresh token cookie.
+4. Call `POST /api/auth/logout` (with a valid access token) to clear the refresh token cookie.
+
+### Configuration
+
+JWT settings live in `appsettings.Development.json` for local development:
 
 ```json
 {
   "Jwt": {
-    "Issuer": "https://localhost:5001",
-    "Audience": "https://localhost:5001",
-    "Key": "YourSecretKeyHere_AtLeast32Characters!"
+    "Key":        "<access-token-signing-key>",
+    "RefreshKey": "<refresh-token-signing-key — must be different from Key>",
+    "Issuer":     "https://localhost:5001",
+    "Audience":   "https://localhost:5001"
   }
 }
 ```
+
+> **Important:** In production, set these values via environment variables or a secrets manager — never commit real keys to source control.
+
+### Testing the Refresh Endpoint
+
+> **⚠️ Swagger UI limitation:** The `/api/auth/refresh` endpoint relies on an `HttpOnly` cookie, which Swagger UI cannot send (JavaScript cannot access `HttpOnly` cookies). Use **Postman** instead:
+>
+> 1. Enable **Cookies** in Postman (enabled by default).
+> 2. Call `POST /api/auth/login` — Postman automatically stores the `refreshToken` cookie.
+> 3. Call `POST /api/auth/refresh` — Postman automatically includes the cookie.
+> 4. You'll receive a new `accessToken` and the cookie will be rotated.
+
+In Swagger UI, click the **Authorize** button and enter your access token to test all other protected endpoints.
 
 ## Project Structure
 

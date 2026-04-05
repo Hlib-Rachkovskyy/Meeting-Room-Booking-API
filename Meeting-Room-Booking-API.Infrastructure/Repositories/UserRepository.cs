@@ -20,6 +20,11 @@ public class UserRepository : IUserRepository
             .FirstOrDefaultAsync(u => u.Email == email.ToLowerInvariant().Trim());
     }
 
+    public async Task<User?> GetByIdAsync(Guid id)
+    {
+        return await _context.Users.FindAsync(id);
+    }
+
     public async Task<bool> ExistsByEmailAsync(string email)
     {
         return await _context.Users

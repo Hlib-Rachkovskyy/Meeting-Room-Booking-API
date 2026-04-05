@@ -3,18 +3,27 @@ using Meeting_Room_Booking_API.Domain.DTOs;
 namespace Meeting_Room_Booking_API.Domain.Interfaces;
 
 /// <summary>
-/// Handles user registration and authentication, returning a signed JWT on success.
+/// Handles user registration, authentication, and token refresh.
 /// </summary>
 public interface IAuthService
 {
     /// <summary>
-    /// Registers a new user. Throws if the email is already taken.
+    /// Registers a new user. Throws <see cref="InvalidOperationException"/> if the email is already taken.
+    /// Returns an <see cref="AuthResponse"/> (access token) and a separate refresh token string.
     /// </summary>
-    Task<AuthResponse> RegisterAsync(RegisterRequest request);
+    Task<(AuthResponse Auth, string RefreshToken)> RegisterAsync(RegisterRequest request);
 
     /// <summary>
-    /// Validates credentials and returns a signed JWT token.
-    /// Throws UnauthorizedAccessException if credentials are invalid.
+    /// Validates credentials and returns an access token plus a refresh token string.
+    /// Throws <see cref="UnauthorizedAccessException"/> if credentials are invalid.
     /// </summary>
-    Task<AuthResponse> LoginAsync(LoginRequest request);
+    Task<(AuthResponse Auth, string RefreshToken)> LoginAsync(LoginRequest request);
+
+    /// <summary>
+    /// Validates the given refresh token JWT, loads the user, and issues a new access token
+    /// plus a rotated refresh token. Throws <see cref="UnauthorizedAccessException"/> if
+    /// the token is invalid or the user no longer exists.
+    /// </summary>
+    Task<(RefreshResponse Refresh, string NewRefreshToken)> RefreshAsync(string refreshToken);
 }
+
