@@ -79,28 +79,28 @@ public class DtoValidationTests
     [Fact]
     public void RegisterRequest_IsValid_WithGoodData()
     {
-        var dto = new RegisterRequest("Jane Doe", "jane@example.com", "SecureP@ss1");
+        var dto = new RegisterRequest { FullName = "Jane Doe", Email = "jane@example.com", Password = "SecureP@ssword1!" };
         Assert.Empty(Validate(dto));
     }
 
     [Fact]
     public void RegisterRequest_FailsValidation_WhenPasswordTooShort()
     {
-        var dto = new RegisterRequest("Jane", "jane@example.com", "short");
+        var dto = new RegisterRequest { FullName = "Jane", Email = "jane@example.com", Password = "short" };
         Assert.NotEmpty(Validate(dto));
     }
 
     [Fact]
     public void RegisterRequest_FailsValidation_WhenEmailIsInvalid()
     {
-        var dto = new RegisterRequest("Jane", "not-an-email", "SecurePassword1");
+        var dto = new RegisterRequest { FullName = "Jane", Email = "not-an-email", Password = "SecureP@ssword1!" };
         Assert.NotEmpty(Validate(dto));
     }
 
     [Fact]
     public void RegisterRequest_FailsValidation_WhenFullNameIsEmpty()
     {
-        var dto = new RegisterRequest("", "jane@example.com", "SecurePassword1");
+        var dto = new RegisterRequest { FullName = "", Email = "jane@example.com", Password = "SecureP@ssword1!" };
         Assert.NotEmpty(Validate(dto));
     }
 
@@ -109,14 +109,14 @@ public class DtoValidationTests
     [Fact]
     public void LoginRequest_FailsValidation_WhenEmailIsInvalid()
     {
-        var dto = new LoginRequest("not-an-email", "password");
+        var dto = new LoginRequest { Email = "not-an-email", Password = "password" };
         Assert.NotEmpty(Validate(dto));
     }
 
     [Fact]
     public void LoginRequest_FailsValidation_WhenPasswordIsEmpty()
     {
-        var dto = new LoginRequest("user@example.com", "");
+        var dto = new LoginRequest { Email = "user@example.com", Password = "" };
         Assert.NotEmpty(Validate(dto));
     }
 }

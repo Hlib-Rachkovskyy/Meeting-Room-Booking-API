@@ -3,31 +3,33 @@ using System.ComponentModel.DataAnnotations;
 namespace Meeting_Room_Booking_API.Domain.DTOs;
 
 /// <summary>Request body for registering a new user.</summary>
-public record RegisterRequest(
+public class RegisterRequest
+{
     [Required(AllowEmptyStrings = false)]
     [StringLength(100, MinimumLength = 2)]
-    string FullName,
+    public string FullName { get; init; } = string.Empty;
 
     [Required]
     [EmailAddress]
-    string Email,
+    public string Email { get; init; } = string.Empty;
 
     [Required]
     [MinLength(8, ErrorMessage = "Password must be at least 8 characters.")]
     [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}$", 
         ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.")]
-    string Password
-);
+    public string Password { get; init; } = string.Empty;
+}
 
 /// <summary>Request body for logging in.</summary>
-public record LoginRequest(
+public class LoginRequest
+{
     [Required]
     [EmailAddress]
-    string Email,
+    public string Email { get; init; } = string.Empty;
 
     [Required]
-    string Password
-);
+    public string Password { get; init; } = string.Empty;
+}
 
 
 /// <summary>
