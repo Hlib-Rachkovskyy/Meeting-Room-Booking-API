@@ -1,3 +1,5 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Meeting_Room_Booking_API.Domain.Entities;
 using Meeting_Room_Booking_API.Domain.Interfaces;
 using Meeting_Room_Booking_API.DTOs;
@@ -53,9 +55,13 @@ public class BookingsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Create(Guid roomId, [FromBody] CreateBookingRequest request)
     {
+        var userId = Guid.Parse(User.FindFirstValue(JwtRegisteredClaimNames.Sub)
+            ?? User.FindFirstValue(ClaimTypes.NameIdentifier)
+            ?? throw new UnauthorizedAccessException("User ID claim missing from token."));
+
         var booking = await _bookingService.BookRoomAsync(
             roomId,
-            request.BookedBy,
+            userId,
             request.StartTime,
             request.EndTime);
 
@@ -71,16 +77,29 @@ public class BookingsController : ControllerBase
     /// <param name="roomId">The unique identifier of the room (used for route scoping).</param>
     /// <param name="bookingId">The unique identifier of the booking to cancel.</param>
     /// <response code="204">Booking cancelled successfully.</response>
+    /// <response code="403">The authenticated user does not own this booking.</response>
     /// <response code="404">Booking was not found.</response>
     [HttpDelete("{bookingId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Cancel(Guid roomId, Guid bookingId)
     {
-        var cancelled = await _bookingService.CancelBookingAsync(bookingId);
-        if (!cancelled)
-            return NotFound(new { message = $"Booking with ID '{bookingId}' was not found." });
+        var userId = Guid.Parse(User.FindFirstValue(JwtRegisteredClaimNames.Sub)
+            ?? User.FindFirstValue(ClaimTypes.NameIdentifier)
+            ?? throw new UnauthorizedAccessException("User ID claim missing from token."));
 
-        return NoContent();
+        try
+        {
+            var cancelled = await _bookingService.CancelBookingAsync(bookingId, userId);
+            if (!cancelled)
+                return NotFound(new { message = $"Booking with ID '{bookingId}' was not found." });
+
+            return NoContent();
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return StatusCode(StatusCodes.Status403Forbidden, new { message = ex.Message });
+        }
     }
 }

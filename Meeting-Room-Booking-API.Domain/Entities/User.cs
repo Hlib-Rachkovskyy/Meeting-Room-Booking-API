@@ -6,7 +6,13 @@ public class User
     public string Email { get; private set; } = string.Empty;
     public string PasswordHash { get; private set; } = string.Empty;
     public string FullName { get; private set; } = string.Empty;
+    public int RefreshTokenVersion { get; private set; } = 0;
     public DateTime CreatedAt { get; private set; }
+    
+    // RBAC & Brute Force Mitigation
+    public string Role { get; private set; } = "User";
+    public int FailedLoginAttempts { get; private set; } = 0;
+    public DateTime? LockoutEnd { get; private set; }
 
     // EF Core parameterless constructor
     private User() { }
@@ -27,5 +33,36 @@ public class User
         PasswordHash = passwordHash;
         FullName = fullName.Trim();
         CreatedAt = DateTime.UtcNow;
+        RefreshTokenVersion = 0;
+    }
+
+    public void IncrementRefreshTokenVersion()
+    {
+        RefreshTokenVersion++;
+    }
+
+    public void RecordFailedLogin()
+    {
+        FailedLoginAttempts++;
+        if (FailedLoginAttempts >= 5)
+        {
+            LockoutEnd = DateTime.UtcNow.AddMinutes(15);
+        }
+    }
+
+    public void ResetFailedLogins()
+    {
+        FailedLoginAttempts = 0;
+        LockoutEnd = null;
+    }
+
+    public bool IsLockedOut()
+    {
+        return LockoutEnd.HasValue && LockoutEnd.Value > DateTime.UtcNow;
+    }
+
+    public void PromoteToAdmin()
+    {
+        Role = "Admin";
     }
 }

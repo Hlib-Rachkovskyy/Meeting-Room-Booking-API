@@ -1,10 +1,34 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Meeting_Room_Booking_API.Domain.DTOs;
 
 /// <summary>Request body for registering a new user.</summary>
-public record RegisterRequest(string FullName, string Email, string Password);
+public record RegisterRequest(
+    [Required(AllowEmptyStrings = false)]
+    [StringLength(100, MinimumLength = 2)]
+    string FullName,
+
+    [Required]
+    [EmailAddress]
+    string Email,
+
+    [Required]
+    [MinLength(8, ErrorMessage = "Password must be at least 8 characters.")]
+    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}$", 
+        ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.")]
+    string Password
+);
 
 /// <summary>Request body for logging in.</summary>
-public record LoginRequest(string Email, string Password);
+public record LoginRequest(
+    [Required]
+    [EmailAddress]
+    string Email,
+
+    [Required]
+    string Password
+);
+
 
 /// <summary>
 /// Returned after a successful register or login.

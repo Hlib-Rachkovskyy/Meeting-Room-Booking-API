@@ -1,17 +1,57 @@
+using Meeting_Room_Booking_API.Application;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Net;
 using System.Reflection;
 using System.Text;
+using System.Threading.RateLimiting;
 using Meeting_Room_Booking_API.Middleware;
 using Meeting_Room_Booking_API.Infrastructure;
 using Meeting_Room_Booking_API.Infrastructure.Seeding;
-using Meeting_Room_Booking_API.Application;
+
+// Load environment variables from .env file at the very start
+DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
 // ── Controllers ────────────────────────────────────────────────────────────────
 builder.Services.AddControllers();
+
+// ── CORS Policy ────────────────────────────────────────────────────────────────
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Frontend", policy =>
+    {
+        policy.WithOrigins(builder.Configuration["CORS_ORIGIN"] ?? "http://localhost:3000")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
+// ── Rate Limiting ──────────────────────────────────────────────────────────────
+builder.Services.AddRateLimiter(options =>
+{
+    // Specific limit for sensitive auth endpoints
+    options.AddFixedWindowLimiter("AuthLimit", opt =>
+    {
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.PermitLimit = 5;
+        opt.QueueLimit = 0;
+    });
+    
+    // Global catch-all limit for everything else
+    options.AddFixedWindowLimiter("GlobalLimit", opt =>
+    {
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.PermitLimit = 100;
+        opt.QueueLimit = 0;
+    });
+
+    options.RejectionStatusCode = (int)HttpStatusCode.TooManyRequests;
+});
 
 // ── Swagger / OpenAPI ──────────────────────────────────────────────────────────
 builder.Services.AddEndpointsApiExplorer();
@@ -61,10 +101,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "https://localhost:5001",
-            ValidAudience = builder.Configuration["Jwt:Audience"] ?? "https://localhost:5001",
+            ValidIssuer = builder.Configuration["JWT_ISSUER"] ?? "https://localhost:5001",
+            ValidAudience = builder.Configuration["JWT_AUDIENCE"] ?? "https://localhost:5001",
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]
+                Encoding.UTF8.GetBytes(builder.Configuration["JWT_KEY"]
                     ?? "ThisIsASecretKeyForTestingPurposesOnly123!"))
         };
     });
@@ -80,6 +120,18 @@ builder.Services.AddInfrastructure();
 // ── Build ──────────────────────────────────────────────────────────────────────
 var app = builder.Build();
 
+// 1. Security Headers (Apply to ALL responses)
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+    context.Response.Headers.Append("X-Frame-Options", "DENY");
+    context.Response.Headers.Append("Referrer-Policy", "strict-origin-when-cross-origin");
+    await next();
+});
+
+// 2. Global Error Handling
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 // Seed the database with dummy data on first startup
 await DatabaseSeeder.SeedAsync(app.Services);
 
@@ -89,14 +141,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Meeting Room Booking API v1"));
 }
 
-// Global error handler must be first in the pipeline
-app.UseMiddleware<ExceptionHandlingMiddleware>();
-
 app.UseHttpsRedirection();
+
+app.UseRateLimiter();
+
+app.UseCors("Frontend");
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllers().RequireRateLimiting("GlobalLimit");
 
-app.Run();
+app.Run();
+
+// Ensure the Program class is accessible from the test project
+public partial class Program { }

@@ -25,5 +25,10 @@ public interface IAuthService
     /// the token is invalid or the user no longer exists.
     /// </summary>
     Task<(RefreshResponse Refresh, string NewRefreshToken)> RefreshAsync(string refreshToken);
+
+    /// <summary>
+    /// Revokes all active tokens for the user by incrementing their RefreshTokenVersion.
+    /// </summary>
+    Task LogoutAsync(Guid userId);
 }
 

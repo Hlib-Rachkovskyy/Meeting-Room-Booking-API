@@ -7,6 +7,7 @@ public class BookingOverlapTests
 {
     private readonly Room _room;
     private readonly Guid _roomId;
+    private static readonly Guid SomeUserId = Guid.NewGuid();
 
     // Baseline booking: 10:00 – 11:00 today
     private readonly DateTime _baseStart;
@@ -21,7 +22,7 @@ public class BookingOverlapTests
         _baseEnd = DateTime.Today.AddDays(1).AddHours(11);   // tomorrow 11:00
 
         // Seed one existing booking
-        var existing = new Booking(_roomId, "Alice", _baseStart, _baseEnd);
+        var existing = new Booking(_roomId, SomeUserId, "Alice", _baseStart, _baseEnd);
         _room.AddBooking(existing);
     }
 
@@ -31,7 +32,7 @@ public class BookingOverlapTests
     public void AddBooking_Succeeds_WhenNewBookingStartsExactlyWhenExistingEnds()
     {
         // [10:00–11:00] existing, [11:00–12:00] new  →  no overlap (half-open intervals)
-        var booking = new Booking(_roomId, "Bob", _baseEnd, _baseEnd.AddHours(1));
+        var booking = new Booking(_roomId, SomeUserId, "Bob", _baseEnd, _baseEnd.AddHours(1));
         _room.AddBooking(booking);
 
         Assert.Equal(2, _room.Bookings.Count);
@@ -41,7 +42,7 @@ public class BookingOverlapTests
     public void AddBooking_Succeeds_WhenNewBookingEndsExactlyWhenExistingStarts()
     {
         // [09:00–10:00] new, [10:00–11:00] existing  →  no overlap
-        var booking = new Booking(_roomId, "Bob", _baseStart.AddHours(-1), _baseStart);
+        var booking = new Booking(_roomId, SomeUserId, "Bob", _baseStart.AddHours(-1), _baseStart);
         _room.AddBooking(booking);
 
         Assert.Equal(2, _room.Bookings.Count);
@@ -51,7 +52,7 @@ public class BookingOverlapTests
     public void AddBooking_Succeeds_WhenNewBookingIsEntirelyBefore()
     {
         // [07:00–08:00] new, [10:00–11:00] existing  →  no overlap
-        var booking = new Booking(_roomId, "Bob", _baseStart.AddHours(-3), _baseStart.AddHours(-2));
+        var booking = new Booking(_roomId, SomeUserId, "Bob", _baseStart.AddHours(-3), _baseStart.AddHours(-2));
         _room.AddBooking(booking);
 
         Assert.Equal(2, _room.Bookings.Count);
@@ -61,7 +62,7 @@ public class BookingOverlapTests
     public void AddBooking_Succeeds_WhenNewBookingIsEntirelyAfter()
     {
         // [10:00–11:00] existing, [14:00–15:00] new  →  no overlap
-        var booking = new Booking(_roomId, "Bob", _baseEnd.AddHours(3), _baseEnd.AddHours(4));
+        var booking = new Booking(_roomId, SomeUserId, "Bob", _baseEnd.AddHours(3), _baseEnd.AddHours(4));
         _room.AddBooking(booking);
 
         Assert.Equal(2, _room.Bookings.Count);
@@ -71,7 +72,7 @@ public class BookingOverlapTests
     public void AddBooking_Succeeds_WhenRoomHasNoExistingBookings()
     {
         var emptyRoom = new Room("Empty Room", "Floor 1", 4);
-        var booking = new Booking(emptyRoom.Id, "Bob", _baseStart, _baseEnd);
+        var booking = new Booking(emptyRoom.Id, SomeUserId, "Bob", _baseStart, _baseEnd);
         emptyRoom.AddBooking(booking);
 
         Assert.Single(emptyRoom.Bookings);
@@ -83,7 +84,7 @@ public class BookingOverlapTests
     public void AddBooking_Throws_WhenNewBookingCompletelySwallowsExisting()
     {
         // [09:00–12:00] new swallows [10:00–11:00] existing
-        var booking = new Booking(_roomId, "Bob", _baseStart.AddHours(-1), _baseEnd.AddHours(1));
+        var booking = new Booking(_roomId, SomeUserId, "Bob", _baseStart.AddHours(-1), _baseEnd.AddHours(1));
 
         Assert.Throws<InvalidOperationException>(() => _room.AddBooking(booking));
     }
@@ -92,7 +93,7 @@ public class BookingOverlapTests
     public void AddBooking_Throws_WhenNewBookingIsCompletelyInsideExisting()
     {
         // [10:15–10:45] new inside [10:00–11:00] existing
-        var booking = new Booking(_roomId, "Bob", _baseStart.AddMinutes(15), _baseEnd.AddMinutes(-15));
+        var booking = new Booking(_roomId, SomeUserId, "Bob", _baseStart.AddMinutes(15), _baseEnd.AddMinutes(-15));
 
         Assert.Throws<InvalidOperationException>(() => _room.AddBooking(booking));
     }
@@ -101,7 +102,7 @@ public class BookingOverlapTests
     public void AddBooking_Throws_WhenNewBookingOverlapsStartOfExisting()
     {
         // [09:30–10:30] new overlaps start of [10:00–11:00] existing
-        var booking = new Booking(_roomId, "Bob", _baseStart.AddMinutes(-30), _baseStart.AddMinutes(30));
+        var booking = new Booking(_roomId, SomeUserId, "Bob", _baseStart.AddMinutes(-30), _baseStart.AddMinutes(30));
 
         Assert.Throws<InvalidOperationException>(() => _room.AddBooking(booking));
     }
@@ -110,7 +111,7 @@ public class BookingOverlapTests
     public void AddBooking_Throws_WhenNewBookingOverlapsEndOfExisting()
     {
         // [10:30–11:30] new overlaps end of [10:00–11:00] existing
-        var booking = new Booking(_roomId, "Bob", _baseStart.AddMinutes(30), _baseEnd.AddMinutes(30));
+        var booking = new Booking(_roomId, SomeUserId, "Bob", _baseStart.AddMinutes(30), _baseEnd.AddMinutes(30));
 
         Assert.Throws<InvalidOperationException>(() => _room.AddBooking(booking));
     }
@@ -119,7 +120,7 @@ public class BookingOverlapTests
     public void AddBooking_Throws_WhenNewBookingIsExactSameSlot()
     {
         // Identical time range — [10:00–11:00] new == [10:00–11:00] existing
-        var booking = new Booking(_roomId, "Bob", _baseStart, _baseEnd);
+        var booking = new Booking(_roomId, SomeUserId, "Bob", _baseStart, _baseEnd);
 
         Assert.Throws<InvalidOperationException>(() => _room.AddBooking(booking));
     }
@@ -128,7 +129,7 @@ public class BookingOverlapTests
     public void AddBooking_Throws_WhenNewBookingOverlapsByOneMinute()
     {
         // [10:59–12:00] new overlaps [10:00–11:00] existing by 1 minute
-        var booking = new Booking(_roomId, "Bob", _baseEnd.AddMinutes(-1), _baseEnd.AddHours(1));
+        var booking = new Booking(_roomId, SomeUserId, "Bob", _baseEnd.AddMinutes(-1), _baseEnd.AddHours(1));
 
         Assert.Throws<InvalidOperationException>(() => _room.AddBooking(booking));
     }
@@ -161,7 +162,7 @@ public class BookingOverlapTests
     {
         var time = DateTime.Today.AddDays(1).AddHours(10);
 
-        Assert.Throws<ArgumentException>(() => new Booking(_roomId, "Bob", time, time));
+        Assert.Throws<ArgumentException>(() => new Booking(_roomId, SomeUserId, "Bob", time, time));
     }
 
     [Fact]
@@ -170,20 +171,27 @@ public class BookingOverlapTests
         var start = DateTime.Today.AddDays(1).AddHours(11);
         var end = DateTime.Today.AddDays(1).AddHours(10);
 
-        Assert.Throws<ArgumentException>(() => new Booking(_roomId, "Bob", start, end));
+        Assert.Throws<ArgumentException>(() => new Booking(_roomId, SomeUserId, "Bob", start, end));
     }
 
     [Fact]
     public void BookingConstructor_Throws_WhenBookedByIsEmpty()
     {
         Assert.Throws<ArgumentException>(() =>
-            new Booking(_roomId, "", _baseStart, _baseEnd));
+            new Booking(_roomId, SomeUserId, "", _baseStart, _baseEnd));
     }
 
     [Fact]
     public void BookingConstructor_Throws_WhenRoomIdIsEmpty()
     {
         Assert.Throws<ArgumentException>(() =>
-            new Booking(Guid.Empty, "Bob", _baseStart, _baseEnd));
+            new Booking(Guid.Empty, SomeUserId, "Bob", _baseStart, _baseEnd));
+    }
+
+    [Fact]
+    public void BookingConstructor_Throws_WhenUserIdIsEmpty()
+    {
+        Assert.Throws<ArgumentException>(() =>
+            new Booking(_roomId, Guid.Empty, "Bob", _baseStart, _baseEnd));
     }
 }

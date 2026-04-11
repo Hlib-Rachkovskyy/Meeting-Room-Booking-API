@@ -46,8 +46,10 @@ public class ExceptionHandlingMiddleware
         var problemDetails = new ProblemDetails
         {
             Status = statusCode,
-            Title = statusCode == 500 ? "An unexpected error occurred." : "A bad request occurred.",
-            Detail = exception.Message,
+            Title = statusCode == 500 ? "An unexpected error occurred." : exception.Message,
+            Detail = statusCode == 500
+                ? "An unexpected error occurred. Please contact support if the problem persists."
+                : exception.Message,
             Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1"
         };
 

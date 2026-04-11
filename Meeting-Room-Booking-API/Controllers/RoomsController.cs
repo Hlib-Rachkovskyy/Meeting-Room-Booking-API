@@ -62,6 +62,7 @@ public class RoomsController : ControllerBase
     /// <response code="201">Room was created successfully.</response>
     /// <response code="400">Validation error in the request body.</response>
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(Room), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateRoomRequest request)
@@ -79,6 +80,7 @@ public class RoomsController : ControllerBase
     /// <response code="204">Room deleted successfully.</response>
     /// <response code="404">Room was not found.</response>
     [HttpDelete("{id:guid}")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(Guid id)

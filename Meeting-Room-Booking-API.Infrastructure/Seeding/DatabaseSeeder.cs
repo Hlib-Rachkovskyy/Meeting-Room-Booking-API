@@ -35,12 +35,18 @@ public static class DatabaseSeeder
 
         var rooms = GenerateRooms();
         var bookings = GenerateBookings(rooms);
+        var adminUser = GenerateAdminUser();
 
         context.Rooms.AddRange(rooms);
         context.Bookings.AddRange(bookings);
+        if (!await context.Users.AnyAsync())
+        {
+            context.Users.Add(adminUser);
+        }
+        
         await context.SaveChangesAsync();
 
-        logger.LogInformation("Database seeding completed successfully.");
+        logger.LogInformation("Database seeding completed successfully. Use admin@example.com / Admin123! to manage rooms.");
     }
 
     private static List<Room> GenerateRooms()
@@ -131,12 +137,22 @@ public static class DatabaseSeeder
 
             // No conflict — create the booking
             var organizer = faker.PickRandom(organizers);
-            var booking = new Booking(room.Id, organizer, startTime, endTime);
+            // Use a deterministic demo user ID for seeded data
+            var demoUserId = new Guid($"00000000-0000-0000-0000-{attempts:D12}");
+            var booking = new Booking(room.Id, demoUserId, organizer, startTime, endTime);
 
             bookings.Add(booking);
             existingSlots.Add((startTime, endTime));
         }
 
         return bookings;
+    }
+
+    private static User GenerateAdminUser()
+    {
+        var passwordHash = BCrypt.Net.BCrypt.HashPassword("Admin123!", workFactor: 12);
+        var user = new User("admin@example.com", passwordHash, "System Administrator");
+        user.PromoteToAdmin();
+        return user;
     }
 }

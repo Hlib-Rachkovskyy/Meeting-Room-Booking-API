@@ -2,6 +2,8 @@ using Meeting_Room_Booking_API.Domain.DTOs;
 using Meeting_Room_Booking_API.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Meeting_Room_Booking_API.Controllers;
 
@@ -12,6 +14,7 @@ namespace Meeting_Room_Booking_API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
+[EnableRateLimiting("AuthLimit")]
 public class AuthController : ControllerBase
 {
     private const string RefreshTokenCookieName = "refreshToken";
@@ -117,8 +120,16 @@ public class AuthController : ControllerBase
     [HttpPost("logout")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public IActionResult Logout()
+    public async Task<IActionResult> Logout()
     {
+        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value 
+                          ?? User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+
+        if (Guid.TryParse(userIdClaim, out var userId))
+        {
+            await _authService.LogoutAsync(userId);
+        }
+
         Response.Cookies.Delete(RefreshTokenCookieName, new CookieOptions
         {
             HttpOnly = true,
