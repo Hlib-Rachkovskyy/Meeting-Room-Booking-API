@@ -4,4 +4,7 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 .idea
-appsettings.Development.json
+
+# Local secrets — never commit
+.env
+.env
