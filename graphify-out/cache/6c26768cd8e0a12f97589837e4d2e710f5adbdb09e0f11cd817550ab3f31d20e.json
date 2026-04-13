@@ -1,0 +1,1 @@
+{"nodes": [], "edges": [{"source": "project_tests", "target": "project_webapi", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "Meeting-Room-Booking-API.Tests/obj/Debug/net8.0/Meeting-Room-Booking-API.Tests.csproj.FileListAbsolute.txt", "source_location": null, "weight": 1.0}], "hyperedges": []}
