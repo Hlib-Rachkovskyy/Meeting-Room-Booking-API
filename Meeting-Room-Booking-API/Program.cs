@@ -78,6 +78,7 @@ builder.Services.AddRateLimiter(options =>
 
 // ── Swagger / OpenAPI ──────────────────────────────────────────────────────────
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHealthChecks();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -173,6 +174,7 @@ app.UseCors("Frontend");
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapHealthChecks("/health");
 app.MapControllers().RequireRateLimiting("GlobalLimit");
 
     app.Run();
