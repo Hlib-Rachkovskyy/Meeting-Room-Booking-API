@@ -1,0 +1,544 @@
+{
+  "communities": {
+    "0": [
+      "bookingoverlaptests_bookingoverlaptests",
+      "bookingoverlaptests_bookingoverlaptests_addbooking_succeeds_whennewbookingendsexactlywhenexistingstarts",
+      "bookingoverlaptests_bookingoverlaptests_addbooking_succeeds_whennewbookingisentirelyafter",
+      "bookingoverlaptests_bookingoverlaptests_addbooking_succeeds_whennewbookingisentirelybefore",
+      "bookingoverlaptests_bookingoverlaptests_addbooking_succeeds_whennewbookingstartsexactlywhenexistingends",
+      "bookingoverlaptests_bookingoverlaptests_addbooking_succeeds_whenroomhasnoexistingbookings",
+      "bookingoverlaptests_bookingoverlaptests_addbooking_throws_whennewbookingcompletelyswallowsexisting",
+      "bookingoverlaptests_bookingoverlaptests_addbooking_throws_whennewbookingiscompletelyinsideexisting",
+      "bookingoverlaptests_bookingoverlaptests_addbooking_throws_whennewbookingisexactsameslot",
+      "bookingoverlaptests_bookingoverlaptests_addbooking_throws_whennewbookingoverlapsbyoneminute",
+      "bookingoverlaptests_bookingoverlaptests_addbooking_throws_whennewbookingoverlapsendofexisting",
+      "bookingoverlaptests_bookingoverlaptests_addbooking_throws_whennewbookingoverlapsstartofexisting",
+      "bookingoverlaptests_bookingoverlaptests_bookingconstructor_throws_whenbookedbyisempty",
+      "bookingoverlaptests_bookingoverlaptests_bookingconstructor_throws_whenendtimeequalsstarttime",
+      "bookingoverlaptests_bookingoverlaptests_bookingconstructor_throws_whenendtimeisbeforestarttime",
+      "bookingoverlaptests_bookingoverlaptests_bookingconstructor_throws_whenroomidisempty",
+      "bookingoverlaptests_bookingoverlaptests_bookingconstructor_throws_whenuseridisempty",
+      "bookingoverlaptests_bookingoverlaptests_hasconflict_returnsfalse_foradjacentslotafter",
+      "bookingoverlaptests_bookingoverlaptests_hasconflict_returnsfalse_whennobookingsexist",
+      "bookingoverlaptests_bookingoverlaptests_hasconflict_returnstrue_foroverlappingslot",
+      "meeting_room_booking_api_tests_domain_bookingoverlaptests_cs"
+    ],
+    "1": [
+      "authcontroller_authcontroller",
+      "authcontroller_authcontroller_login",
+      "authcontroller_authcontroller_logout",
+      "authcontroller_authcontroller_refresh",
+      "authcontroller_authcontroller_register",
+      "authcontroller_authcontroller_setrefreshtokencookie",
+      "bookingscontroller_bookingscontroller",
+      "bookingscontroller_bookingscontroller_cancel",
+      "bookingscontroller_bookingscontroller_create",
+      "bookingscontroller_bookingscontroller_getbyroom",
+      "controllerbase",
+      "meeting_room_booking_api_controllers_authcontroller_cs",
+      "meeting_room_booking_api_controllers_bookingscontroller_cs",
+      "meeting_room_booking_api_controllers_roomscontroller_cs",
+      "roomscontroller_roomscontroller",
+      "roomscontroller_roomscontroller_create",
+      "roomscontroller_roomscontroller_delete",
+      "roomscontroller_roomscontroller_getall",
+      "roomscontroller_roomscontroller_getbyid"
+    ],
+    "2": [
+      "dtovalidationtests_dtovalidationtests",
+      "dtovalidationtests_dtovalidationtests_createbookingrequest_failsvalidation_whenendtimebeforestarttime",
+      "dtovalidationtests_dtovalidationtests_createbookingrequest_failsvalidation_whenendtimeequalsstarttime",
+      "dtovalidationtests_dtovalidationtests_createbookingrequest_isvalid_withfuturetimes",
+      "dtovalidationtests_dtovalidationtests_createroomrequest_failsvalidation_whencapacityisnegative",
+      "dtovalidationtests_dtovalidationtests_createroomrequest_failsvalidation_whencapacityiszero",
+      "dtovalidationtests_dtovalidationtests_createroomrequest_failsvalidation_whennameisempty",
+      "dtovalidationtests_dtovalidationtests_createroomrequest_isvalid_withgooddata",
+      "dtovalidationtests_dtovalidationtests_loginrequest_failsvalidation_whenemailisinvalid",
+      "dtovalidationtests_dtovalidationtests_loginrequest_failsvalidation_whenpasswordisempty",
+      "dtovalidationtests_dtovalidationtests_registerrequest_failsvalidation_whenemailisinvalid",
+      "dtovalidationtests_dtovalidationtests_registerrequest_failsvalidation_whenfullnameisempty",
+      "dtovalidationtests_dtovalidationtests_registerrequest_failsvalidation_whenpasswordtooshort",
+      "dtovalidationtests_dtovalidationtests_registerrequest_isvalid_withgooddata",
+      "dtovalidationtests_dtovalidationtests_validate",
+      "meeting_room_booking_api_tests_validation_dtovalidationtests_cs"
+    ],
+    "3": [
+      "authratelimittests_authratelimittests",
+      "authratelimittests_authratelimittests_login_returns429_aftertoomanyrequests",
+      "globalratelimittests_globalratelimittests",
+      "globalratelimittests_globalratelimittests_nonauthendpoint_returns429_after100requests",
+      "iclassfixture",
+      "meeting_room_booking_api_tests_integration_authratelimittests_cs",
+      "meeting_room_booking_api_tests_integration_globalratelimittests_cs",
+      "meeting_room_booking_api_tests_integration_securityheadertests_cs",
+      "meeting_room_booking_api_tests_integration_startuptests_cs",
+      "securityheadertests_securityheadertests",
+      "securityheadertests_securityheadertests_app_includescorsheaders_forallowedorigin",
+      "securityheadertests_securityheadertests_response_includessecurityheaders",
+      "startuptests_startuptests",
+      "startuptests_startuptests_startup_throws_whenjwtkeyismissing"
+    ],
+    "4": [
+      "authservice_authservice",
+      "authservice_authservice_buildtokenpair",
+      "authservice_authservice_generateaccesstoken",
+      "authservice_authservice_generaterefreshtoken",
+      "authservice_authservice_getconfigvalue",
+      "authservice_authservice_loginasync",
+      "authservice_authservice_logoutasync",
+      "authservice_authservice_refreshasync",
+      "authservice_authservice_registerasync",
+      "authservice_authservice_validaterefreshtoken",
+      "iauthservice",
+      "meeting_room_booking_api_infrastructure_services_authservice_cs"
+    ],
+    "5": [
+      "bookingconfiguration_bookingconfiguration",
+      "bookingconfiguration_bookingconfiguration_configure",
+      "ientitytypeconfiguration",
+      "meeting_room_booking_api_infrastructure_data_configurations_bookingconfiguration_cs",
+      "meeting_room_booking_api_infrastructure_data_configurations_roomconfiguration_cs",
+      "meeting_room_booking_api_infrastructure_data_configurations_userconfiguration_cs",
+      "roomconfiguration_roomconfiguration",
+      "roomconfiguration_roomconfiguration_configure",
+      "userconfiguration_userconfiguration",
+      "userconfiguration_userconfiguration_configure"
+    ],
+    "6": [
+      "bookingrepository_bookingrepository",
+      "bookingrepository_bookingrepository_addasync",
+      "bookingrepository_bookingrepository_deleteasync",
+      "bookingrepository_bookingrepository_getallasync",
+      "bookingrepository_bookingrepository_getbyidasync",
+      "bookingrepository_bookingrepository_getbyroomidasync",
+      "bookingrepository_bookingrepository_updateasync",
+      "ibookingrepository",
+      "meeting_room_booking_api_infrastructure_repositories_bookingrepository_cs"
+    ],
+    "7": [
+      "ibookingrepository_ibookingrepository",
+      "ibookingrepository_ibookingrepository_addasync",
+      "ibookingrepository_ibookingrepository_deleteasync",
+      "ibookingrepository_ibookingrepository_getallasync",
+      "ibookingrepository_ibookingrepository_getbyidasync",
+      "ibookingrepository_ibookingrepository_getbyroomidasync",
+      "ibookingrepository_ibookingrepository_updateasync",
+      "meeting_room_booking_api_domain_interfaces_ibookingrepository_cs"
+    ],
+    "8": [
+      "iroomrepository",
+      "meeting_room_booking_api_infrastructure_repositories_roomrepository_cs",
+      "roomrepository_roomrepository",
+      "roomrepository_roomrepository_addasync",
+      "roomrepository_roomrepository_deleteasync",
+      "roomrepository_roomrepository_getallasync",
+      "roomrepository_roomrepository_getbyidasync",
+      "roomrepository_roomrepository_updateasync"
+    ],
+    "9": [
+      "iuserrepository",
+      "meeting_room_booking_api_infrastructure_repositories_userrepository_cs",
+      "userrepository_userrepository",
+      "userrepository_userrepository_addasync",
+      "userrepository_userrepository_existsbyemailasync",
+      "userrepository_userrepository_getbyemailasync",
+      "userrepository_userrepository_getbyidasync",
+      "userrepository_userrepository_updateasync"
+    ],
+    "10": [
+      "meeting_room_booking_api_domain_entities_user_cs",
+      "user_user",
+      "user_user_incrementrefreshtokenversion",
+      "user_user_islockedout",
+      "user_user_promotetoadmin",
+      "user_user_recordfailedlogin",
+      "user_user_resetfailedlogins"
+    ],
+    "11": [
+      "iroomrepository_iroomrepository",
+      "iroomrepository_iroomrepository_addasync",
+      "iroomrepository_iroomrepository_deleteasync",
+      "iroomrepository_iroomrepository_getallasync",
+      "iroomrepository_iroomrepository_getbyidasync",
+      "iroomrepository_iroomrepository_updateasync",
+      "meeting_room_booking_api_domain_interfaces_iroomrepository_cs"
+    ],
+    "12": [
+      "iuserrepository_iuserrepository",
+      "iuserrepository_iuserrepository_addasync",
+      "iuserrepository_iuserrepository_existsbyemailasync",
+      "iuserrepository_iuserrepository_getbyemailasync",
+      "iuserrepository_iuserrepository_getbyidasync",
+      "iuserrepository_iuserrepository_updateasync",
+      "meeting_room_booking_api_domain_interfaces_iuserrepository_cs"
+    ],
+    "13": [
+      "exceptionhandlingmiddlewaretests_exceptionhandlingmiddlewaretests",
+      "exceptionhandlingmiddlewaretests_exceptionhandlingmiddlewaretests_argumentexception_returns400_withexceptionmessage",
+      "exceptionhandlingmiddlewaretests_exceptionhandlingmiddlewaretests_buildserverthatthrows",
+      "exceptionhandlingmiddlewaretests_exceptionhandlingmiddlewaretests_keynotfoundexception_returns404",
+      "exceptionhandlingmiddlewaretests_exceptionhandlingmiddlewaretests_unauthorizedaccessexception_returns401",
+      "exceptionhandlingmiddlewaretests_exceptionhandlingmiddlewaretests_unhandledexception_returns500_withgenericmessage_notleakingexceptiondetails",
+      "meeting_room_booking_api_tests_middleware_exceptionhandlingmiddlewaretests_cs"
+    ],
+    "14": [
+      "bookingservice_bookingservice",
+      "bookingservice_bookingservice_bookroomasync",
+      "bookingservice_bookingservice_cancelbookingasync",
+      "bookingservice_bookingservice_getbookingsbyroomasync",
+      "ibookingservice",
+      "meeting_room_booking_api_application_services_bookingservice_cs"
+    ],
+    "15": [
+      "iauthservice_iauthservice",
+      "iauthservice_iauthservice_loginasync",
+      "iauthservice_iauthservice_logoutasync",
+      "iauthservice_iauthservice_refreshasync",
+      "iauthservice_iauthservice_registerasync",
+      "meeting_room_booking_api_domain_interfaces_iauthservice_cs"
+    ],
+    "16": [
+      "databaseseeder_databaseseeder",
+      "databaseseeder_databaseseeder_generateadminuser",
+      "databaseseeder_databaseseeder_generatebookings",
+      "databaseseeder_databaseseeder_generaterooms",
+      "databaseseeder_databaseseeder_seedasync",
+      "meeting_room_booking_api_infrastructure_seeding_databaseseeder_cs"
+    ],
+    "17": [
+      "bookingscontrollertests_bookingscontrollertests",
+      "bookingscontrollertests_bookingscontrollertests_cancel_returns204_whenuserownsbooking",
+      "bookingscontrollertests_bookingscontrollertests_cancel_returns403_whenuserdoesnotownbooking",
+      "bookingscontrollertests_bookingscontrollertests_cancel_returns404_whenbookingdoesnotexist",
+      "bookingscontrollertests_bookingscontrollertests_create_usesauthenticateduseridasbookedby_notrequestbody",
+      "meeting_room_booking_api_tests_controllers_bookingscontrollertests_cs"
+    ],
+    "18": [
+      "authservicetests_authservicetests",
+      "authservicetests_authservicetests_generatemanualrefreshtoken",
+      "authservicetests_authservicetests_logout_incrementstokenversion",
+      "authservicetests_authservicetests_refresh_succeeds_withvalidtoken",
+      "authservicetests_authservicetests_refresh_throws_whenversionmismatch",
+      "meeting_room_booking_api_tests_services_authservicetests_cs"
+    ],
+    "19": [
+      "dependencyinjection_dependencyinjection",
+      "dependencyinjection_dependencyinjection_addapplication",
+      "dependencyinjection_dependencyinjection_addinfrastructure",
+      "meeting_room_booking_api_application_dependencyinjection_cs",
+      "meeting_room_booking_api_infrastructure_dependencyinjection_cs"
+    ],
+    "20": [
+      "ibookingservice_ibookingservice",
+      "ibookingservice_ibookingservice_bookroomasync",
+      "ibookingservice_ibookingservice_cancelbookingasync",
+      "ibookingservice_ibookingservice_getbookingsbyroomasync",
+      "meeting_room_booking_api_domain_interfaces_ibookingservice_cs"
+    ],
+    "21": [
+      "readme_api",
+      "readme_aspnet_core",
+      "readme_clean_architecture",
+      "readme_inmemory_database",
+      "readme_inmemory_rationale"
+    ],
+    "22": [
+      "project_application",
+      "project_domain",
+      "project_infrastructure",
+      "project_tests",
+      "project_webapi"
+    ],
+    "23": [
+      "exceptionhandlingmiddleware_exceptionhandlingmiddleware",
+      "exceptionhandlingmiddleware_exceptionhandlingmiddleware_handleexceptionasync",
+      "exceptionhandlingmiddleware_exceptionhandlingmiddleware_invokeasync",
+      "meeting_room_booking_api_middleware_exceptionhandlingmiddleware_cs"
+    ],
+    "24": [
+      "meeting_room_booking_api_domain_entities_room_cs",
+      "room_room",
+      "room_room_addbooking",
+      "room_room_hasconflict"
+    ],
+    "25": [
+      "applicationdbcontext_applicationdbcontext",
+      "applicationdbcontext_applicationdbcontext_onmodelcreating",
+      "dbcontext",
+      "meeting_room_booking_api_infrastructure_data_applicationdbcontext_cs"
+    ],
+    "26": [
+      "meeting_room_booking_api_tests_controllers_roomscontrollertests_cs",
+      "roomscontrollertests_roomscontrollertests",
+      "roomscontrollertests_roomscontrollertests_getbyid_returnsnotfound_whenroomdoesnotexist",
+      "roomscontrollertests_roomscontrollertests_getbyid_returnsok_whenroomexists"
+    ],
+    "27": [
+      "gemini_graph_report",
+      "gemini_graphify",
+      "gemini_rebuild_code_rationale",
+      "gemini_wiki"
+    ],
+    "28": [
+      "readme_application_layer",
+      "readme_domain_layer",
+      "readme_infrastructure_layer",
+      "readme_webapi_layer"
+    ],
+    "29": [
+      "authdtos_loginrequest",
+      "authdtos_registerrequest",
+      "meeting_room_booking_api_domain_dtos_authdtos_cs"
+    ],
+    "30": [
+      "meeting_room_booking_api_tests_unittest1_cs",
+      "unittest1_unittest1",
+      "unittest1_unittest1_test1"
+    ],
+    "31": [
+      "readme_authentication",
+      "readme_jwt",
+      "readme_refresh_token_rotation"
+    ],
+    "32": [
+      "bookingintegrationtests_bookingintegrationtests",
+      "bookingintegrationtests_bookingintegrationtests_bookroomasync_shouldsuccessfullycreatebooking",
+      "meeting_room_booking_api_tests_integration_bookingintegrationtests_cs"
+    ],
+    "33": [
+      "meeting_room_booking_api_program_cs",
+      "program_program"
+    ],
+    "34": [
+      "meeting_room_booking_api_dtos_requests_cs",
+      "requests_validate"
+    ],
+    "35": [
+      "class1_class1",
+      "meeting_room_booking_api_application_class1_cs"
+    ],
+    "36": [
+      "booking_booking",
+      "meeting_room_booking_api_domain_entities_booking_cs"
+    ],
+    "37": [
+      "readme_dependency_rationale",
+      "readme_dependency_rule"
+    ],
+    "38": [
+      "meeting_room_booking_api_obj_debug_net8_0_meeting_room_booking_api_assemblyinfo_cs"
+    ],
+    "39": [
+      "meeting_room_booking_api_obj_debug_net8_0_meeting_room_booking_api_globalusings_g_cs"
+    ],
+    "40": [
+      "meeting_room_booking_api_obj_debug_net8_0_meeting_room_booking_api_mvcapplicationpartsassemblyinfo_cs"
+    ],
+    "41": [
+      "meeting_room_booking_api_application_obj_debug_net8_0_meeting_room_booking_api_application_assemblyinfo_cs"
+    ],
+    "42": [
+      "meeting_room_booking_api_application_obj_debug_net8_0_meeting_room_booking_api_application_globalusings_g_cs"
+    ],
+    "43": [
+      "meeting_room_booking_api_domain_obj_debug_net8_0_meeting_room_booking_api_domain_assemblyinfo_cs"
+    ],
+    "44": [
+      "meeting_room_booking_api_domain_obj_debug_net8_0_meeting_room_booking_api_domain_globalusings_g_cs"
+    ],
+    "45": [
+      "meeting_room_booking_api_infrastructure_obj_debug_net8_0_meeting_room_booking_api_infrastructure_assemblyinfo_cs"
+    ],
+    "46": [
+      "meeting_room_booking_api_infrastructure_obj_debug_net8_0_meeting_room_booking_api_infrastructure_globalusings_g_cs"
+    ],
+    "47": [
+      "meeting_room_booking_api_tests_obj_debug_net8_0_meeting_room_booking_api_tests_assemblyinfo_cs"
+    ],
+    "48": [
+      "meeting_room_booking_api_tests_obj_debug_net8_0_meeting_room_booking_api_tests_globalusings_g_cs"
+    ]
+  },
+  "cohesion": {
+    "0": 0.1,
+    "1": 0.12,
+    "2": 0.23,
+    "3": 0.14,
+    "4": 0.32,
+    "5": 0.2,
+    "6": 0.22,
+    "7": 0.25,
+    "8": 0.25,
+    "9": 0.25,
+    "10": 0.29,
+    "11": 0.29,
+    "12": 0.29,
+    "13": 0.48,
+    "14": 0.33,
+    "15": 0.33,
+    "16": 0.53,
+    "17": 0.33,
+    "18": 0.47,
+    "19": 0.4,
+    "20": 0.4,
+    "21": 0.4,
+    "22": 0.7,
+    "23": 0.67,
+    "24": 0.67,
+    "25": 0.5,
+    "26": 0.5,
+    "27": 0.5,
+    "28": 0.67,
+    "29": 0.67,
+    "30": 0.67,
+    "31": 0.67,
+    "32": 0.67,
+    "33": 1.0,
+    "34": 1.0,
+    "35": 1.0,
+    "36": 1.0,
+    "37": 1.0,
+    "38": 1.0,
+    "39": 1.0,
+    "40": 1.0,
+    "41": 1.0,
+    "42": 1.0,
+    "43": 1.0,
+    "44": 1.0,
+    "45": 1.0,
+    "46": 1.0,
+    "47": 1.0,
+    "48": 1.0
+  },
+  "gods": [
+    {
+      "id": "bookingoverlaptests_bookingoverlaptests",
+      "label": "BookingOverlapTests",
+      "edges": 20
+    },
+    {
+      "id": "dtovalidationtests_dtovalidationtests",
+      "label": "DtoValidationTests",
+      "edges": 15
+    },
+    {
+      "id": "authservice_authservice",
+      "label": "AuthService",
+      "edges": 11
+    },
+    {
+      "id": "bookingrepository_bookingrepository",
+      "label": "BookingRepository",
+      "edges": 8
+    },
+    {
+      "id": "authcontroller_authcontroller",
+      "label": "AuthController",
+      "edges": 7
+    },
+    {
+      "id": "ibookingrepository_ibookingrepository",
+      "label": "IBookingRepository",
+      "edges": 7
+    },
+    {
+      "id": "roomrepository_roomrepository",
+      "label": "RoomRepository",
+      "edges": 7
+    },
+    {
+      "id": "userrepository_userrepository",
+      "label": "UserRepository",
+      "edges": 7
+    },
+    {
+      "id": "roomscontroller_roomscontroller",
+      "label": "RoomsController",
+      "edges": 6
+    },
+    {
+      "id": "user_user",
+      "label": "User",
+      "edges": 6
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Meeting-Room-Booking-API (Web API)",
+      "target": "Meeting-Room-Booking-API.Application",
+      "source_files": [
+        "Meeting-Room-Booking-API/Meeting-Room-Booking-API.csproj",
+        "Meeting-Room-Booking-API.Application/Meeting-Room-Booking-API.Application.csproj"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories"
+    },
+    {
+      "source": "Meeting-Room-Booking-API (Web API)",
+      "target": "Meeting-Room-Booking-API.Infrastructure",
+      "source_files": [
+        "Meeting-Room-Booking-API/Meeting-Room-Booking-API.csproj",
+        "Meeting-Room-Booking-API.Infrastructure/Meeting-Room-Booking-API.Infrastructure.csproj"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories"
+    },
+    {
+      "source": "Meeting-Room-Booking-API (Web API)",
+      "target": "Meeting-Room-Booking-API.Domain",
+      "source_files": [
+        "Meeting-Room-Booking-API/Meeting-Room-Booking-API.csproj",
+        "Meeting-Room-Booking-API.Domain/Meeting-Room-Booking-API.Domain.csproj"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories"
+    },
+    {
+      "source": "Meeting-Room-Booking-API.Tests",
+      "target": "Meeting-Room-Booking-API (Web API)",
+      "source_files": [
+        "Meeting-Room-Booking-API.Tests/Meeting-Room-Booking-API.Tests.csproj",
+        "Meeting-Room-Booking-API/Meeting-Room-Booking-API.csproj"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories"
+    },
+    {
+      "source": "Meeting-Room-Booking-API.Infrastructure",
+      "target": "Meeting-Room-Booking-API.Application",
+      "source_files": [
+        "Meeting-Room-Booking-API.Infrastructure/Meeting-Room-Booking-API.Infrastructure.csproj",
+        "Meeting-Room-Booking-API.Application/Meeting-Room-Booking-API.Application.csproj"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories"
+    }
+  ],
+  "questions": [
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `Program`, `Class1`, `RegisterRequest` to the rest of the system?",
+      "why": "17 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 0` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.1 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 1` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.12 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 3` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.14 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

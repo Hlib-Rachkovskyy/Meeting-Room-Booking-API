@@ -1,3 +1,5 @@
+using Meeting_Room_Booking_API.Domain.Exceptions;
+
 namespace Meeting_Room_Booking_API.Domain.Entities;
 
 public class Room
@@ -34,7 +36,7 @@ public class Room
     public void AddBooking(Booking booking)
     {
         if (HasConflict(booking.StartTime, booking.EndTime))
-            throw new InvalidOperationException(
+            throw new ConflictException(
                 $"Room '{Name}' is already booked for an overlapping time slot " +
                 $"({booking.StartTime:g} – {booking.EndTime:g}).");
 

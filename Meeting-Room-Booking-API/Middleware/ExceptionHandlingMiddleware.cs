@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Text.Json;
+using Meeting_Room_Booking_API.Domain.Exceptions;
 
 namespace Meeting_Room_Booking_API.Middleware;
 
@@ -21,9 +22,14 @@ public class ExceptionHandlingMiddleware
         {
             await _next(context);
         }
+        catch (DomainException ex)
+        {
+            _logger.LogWarning(ex, "A business conflict occurred: {Message}", ex.Message);
+            await HandleExceptionAsync(context, ex);
+        }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An unhandled exception has occurred.");
+            _logger.LogError(ex, "An unhandled system exception has occurred.");
             await HandleExceptionAsync(context, ex);
         }
     }
@@ -34,6 +40,8 @@ public class ExceptionHandlingMiddleware
 
         var statusCode = exception switch
         {
+            ConflictException => (int)HttpStatusCode.Conflict,
+            DomainException => (int)HttpStatusCode.BadRequest,
             ArgumentException => (int)HttpStatusCode.BadRequest,
             InvalidOperationException => (int)HttpStatusCode.BadRequest,
             KeyNotFoundException => (int)HttpStatusCode.NotFound,

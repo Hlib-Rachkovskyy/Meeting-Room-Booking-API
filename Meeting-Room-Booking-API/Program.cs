@@ -10,11 +10,34 @@ using System.Threading.RateLimiting;
 using Meeting_Room_Booking_API.Middleware;
 using Meeting_Room_Booking_API.Infrastructure;
 using Meeting_Room_Booking_API.Infrastructure.Seeding;
+using Serilog;
+using Serilog.Events;
+using Serilog.Formatting.Json;
 
 // Load environment variables from .env file at the very start
 DotNetEnv.Env.Load();
 
-var builder = WebApplication.CreateBuilder(args);
+// ── Serilog Configuration ──────────────────────────────────────────────────────
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+    .Enrich.FromLogContext()
+    .Enrich.WithCorrelationId()
+    .WriteTo.Console(new JsonFormatter())
+    .WriteTo.File(new JsonFormatter(), "logs/booking-api-.log", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+try
+{
+    Log.Information("Starting Meeting Room Booking API...");
+
+    var builder = WebApplication.CreateBuilder(args);
+
+    // Use Serilog as the logging provider
+    builder.Host.UseSerilog();
+
+    // Required for CorrelationId enrichment
+    builder.Services.AddHttpContextAccessor();
 
 // ── Controllers ────────────────────────────────────────────────────────────────
 builder.Services.AddControllers();
@@ -152,7 +175,17 @@ app.UseAuthorization();
 
 app.MapControllers().RequireRateLimiting("GlobalLimit");
 
-app.Run();
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
+
 
 // Ensure the Program class is accessible from the test project
 public partial class Program { }

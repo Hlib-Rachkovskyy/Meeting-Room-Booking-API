@@ -1,0 +1,3 @@
+{"Timestamp":"2026-04-13T21:48:59.4170165+02:00","Level":"Information","MessageTemplate":"Starting Meeting Room Booking API..."}
+{"Timestamp":"2026-04-13T21:49:00.1521558+02:00","Level":"Information","MessageTemplate":"Seeding database with {RoomCount} rooms and {BookingCount} bookings...","Properties":{"RoomCount":10,"BookingCount":50,"SourceContext":"Meeting_Room_Booking_API.Infrastructure.Data.ApplicationDbContext"}}
+{"Timestamp":"2026-04-13T21:49:00.7506177+02:00","Level":"Information","MessageTemplate":"Database seeding completed successfully. Use admin@example.com / Admin123! to manage rooms.","Properties":{"SourceContext":"Meeting_Room_Booking_API.Infrastructure.Data.ApplicationDbContext"}}
