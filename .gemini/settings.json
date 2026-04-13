@@ -13,6 +13,10 @@
     ]
   },
   "skills": {
-    "disabled": []
+    "disabled": [
+      "interactive-portfolio",
+      "security-auditor",
+      "frontend-design"
+    ]
   }
 }

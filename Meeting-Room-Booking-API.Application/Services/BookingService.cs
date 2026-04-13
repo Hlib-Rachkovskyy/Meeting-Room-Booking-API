@@ -33,7 +33,7 @@ public class BookingService : IBookingService
         // This will throw if there's a conflict
         room.AddBooking(booking);
 
-        await _roomRepository.UpdateAsync(room);
+        await _bookingRepository.AddAsync(booking);
 
         return booking;
     }
