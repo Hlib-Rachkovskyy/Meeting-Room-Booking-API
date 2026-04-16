@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using Meeting_Room_Booking_API.Domain.Exceptions;
 using Meeting_Room_Booking_API.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -87,5 +88,22 @@ public class ExceptionHandlingMiddlewareTests
         var response = await client.GetAsync("/any");
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task ConflictException_Returns409()
+    {
+        // Arrange
+        const string message = "Room already booked";
+        using var server = BuildServerThatThrows(new ConflictException(message));
+        using var client = server.CreateClient();
+
+        // Act
+        var response = await client.GetAsync("/any");
+        var body = await response.Content.ReadAsStringAsync();
+
+        // Assert
+        Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
+        Assert.Contains(message, body, StringComparison.OrdinalIgnoreCase);
     }
 }

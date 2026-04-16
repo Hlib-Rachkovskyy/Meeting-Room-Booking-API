@@ -19,6 +19,26 @@ public class RoomsControllerTests
     }
 
     [Fact]
+    public async Task GetAll_ReturnsOk_WithRooms()
+    {
+        // Arrange
+        var rooms = new List<Room>
+        {
+            new Room("Room A", "Loc A", 10),
+            new Room("Room B", "Loc B", 20)
+        };
+        _roomRepositoryMock.Setup(repo => repo.GetAllAsync()).ReturnsAsync(rooms);
+
+        // Act
+        var result = await _controller.GetAll();
+
+        // Assert
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        var returnedRooms = Assert.IsType<List<Room>>(okResult.Value);
+        Assert.Equal(2, returnedRooms.Count);
+    }
+
+    [Fact]
     public async Task GetById_ReturnsOk_WhenRoomExists()
     {
         // Arrange

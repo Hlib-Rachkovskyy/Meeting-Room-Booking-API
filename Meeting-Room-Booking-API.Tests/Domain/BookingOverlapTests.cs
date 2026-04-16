@@ -1,4 +1,5 @@
 using Meeting_Room_Booking_API.Domain.Entities;
+using Meeting_Room_Booking_API.Domain.Exceptions;
 using Xunit;
 
 namespace Meeting_Room_Booking_API.Tests.Domain;
@@ -86,7 +87,7 @@ public class BookingOverlapTests
         // [09:00–12:00] new swallows [10:00–11:00] existing
         var booking = new Booking(_roomId, SomeUserId, "Bob", _baseStart.AddHours(-1), _baseEnd.AddHours(1));
 
-        Assert.Throws<InvalidOperationException>(() => _room.AddBooking(booking));
+        Assert.Throws<ConflictException>(() => _room.AddBooking(booking));
     }
 
     [Fact]
@@ -95,7 +96,7 @@ public class BookingOverlapTests
         // [10:15–10:45] new inside [10:00–11:00] existing
         var booking = new Booking(_roomId, SomeUserId, "Bob", _baseStart.AddMinutes(15), _baseEnd.AddMinutes(-15));
 
-        Assert.Throws<InvalidOperationException>(() => _room.AddBooking(booking));
+        Assert.Throws<ConflictException>(() => _room.AddBooking(booking));
     }
 
     [Fact]
@@ -104,7 +105,7 @@ public class BookingOverlapTests
         // [09:30–10:30] new overlaps start of [10:00–11:00] existing
         var booking = new Booking(_roomId, SomeUserId, "Bob", _baseStart.AddMinutes(-30), _baseStart.AddMinutes(30));
 
-        Assert.Throws<InvalidOperationException>(() => _room.AddBooking(booking));
+        Assert.Throws<ConflictException>(() => _room.AddBooking(booking));
     }
 
     [Fact]
@@ -113,7 +114,7 @@ public class BookingOverlapTests
         // [10:30–11:30] new overlaps end of [10:00–11:00] existing
         var booking = new Booking(_roomId, SomeUserId, "Bob", _baseStart.AddMinutes(30), _baseEnd.AddMinutes(30));
 
-        Assert.Throws<InvalidOperationException>(() => _room.AddBooking(booking));
+        Assert.Throws<ConflictException>(() => _room.AddBooking(booking));
     }
 
     [Fact]
@@ -122,7 +123,7 @@ public class BookingOverlapTests
         // Identical time range — [10:00–11:00] new == [10:00–11:00] existing
         var booking = new Booking(_roomId, SomeUserId, "Bob", _baseStart, _baseEnd);
 
-        Assert.Throws<InvalidOperationException>(() => _room.AddBooking(booking));
+        Assert.Throws<ConflictException>(() => _room.AddBooking(booking));
     }
 
     [Fact]
@@ -131,7 +132,7 @@ public class BookingOverlapTests
         // [10:59–12:00] new overlaps [10:00–11:00] existing by 1 minute
         var booking = new Booking(_roomId, SomeUserId, "Bob", _baseEnd.AddMinutes(-1), _baseEnd.AddHours(1));
 
-        Assert.Throws<InvalidOperationException>(() => _room.AddBooking(booking));
+        Assert.Throws<ConflictException>(() => _room.AddBooking(booking));
     }
 
     // ─── HasConflict direct checks ─────────────────────────────────────────────
